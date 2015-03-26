@@ -16,6 +16,7 @@ libraryDependencies in ThisBuild <++= scalaVersion { (sv: String) =>
   Seq(
     "lighthouse" %% "lighthouse-server" % "1.0",
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-    "io.spray" %% "spray-client" % sprayVersion
+    "io.spray" %% "spray-client" % sprayVersion,
+    "org.slf4j" % "slf4j-simple" % "1.7.5"
   )
 }

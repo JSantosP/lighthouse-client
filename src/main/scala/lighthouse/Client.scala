@@ -19,6 +19,20 @@ case class Client(url: URL, timeoutSeconds: Int = DefaultTimeout) extends Loggab
 
   private val pipeline = sendReceive
 
+  def isOnline(): Boolean = {
+    Try {
+      val HttpResponse(status, entity, _, _) =
+        Await.result(
+          pipeline(Get(url)), timeoutSeconds.seconds)
+      if (status.intValue == 200) true 
+      else false
+    }.recover {
+      case t: Throwable => 
+        log.info(s"Server not alive (yet) : ${t.getMessage}")
+        false
+    }.get
+  }
+
   def get(key: Key): Option[ResourceValue] = {
     Try {
       val HttpResponse(status, entity, _, _) =
